@@ -26,7 +26,14 @@ PHP (Laravel Framework): Başvuru formu ve diğer verilerin güvenli bir şekild
 
 📸 Ekran Görüntüleri
 
+<img width="1889" height="427" alt="Ekran görüntüsü 2025-08-24 182422" src="https://github.com/user-attachments/assets/dade38e7-888c-40a6-91f2-df59b8f5327b" />
 
+
+<img width="1893" height="689" alt="Ekran görüntüsü 2025-08-24 182431" src="https://github.com/user-attachments/assets/09ba1f3e-8533-4798-932a-99c812a44f42" />
+
+<img width="675" height="597" alt="Ekran görüntüsü 2025-08-24 182655" src="https://github.com/user-attachments/assets/6deb82c5-367e-4663-ae5b-5ec6095c4a4b" />
+
+<img width="657" height="318" alt="Ekran görüntüsü 2025-08-24 182444" src="https://github.com/user-attachments/assets/307ffcaa-fd81-40d8-8671-484cff210b2e" />
 
 👨‍💻 Geliştirici
 
