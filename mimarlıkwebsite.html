@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YüksekMimarlar</title>
+<style>
+  /* Genel stil */
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #1e3a8a 0%, #0c4a6e 50%, #031438 100%);
+    color: #fff;
+    background-attachment: fixed;
+    animation: fadeIn 1.2s ease-in-out;
+  }
+
+  /* Navbar */
+  .navbar {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  .navbar a {
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+    transition: color 0.3s, transform 0.3s;
+  }
+  .navbar a:hover {
+    color: gold;
+    transform: scale(1.1);
+  }
+
+  /* İçerik bölümleri */
+  .content {
+    display: none;
+    padding: 20px;
+    animation: fadeIn 0.8s ease-in-out;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    margin: 20px;
+    border-radius: 15px;
+    text-align: center;
+  }
+  #home.content.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .content h1 {
+    margin-bottom: 10px;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  }
+  .content p {
+    color: #ccc;
+    margin-top: 0;
+  }
+
+  /* 3D Animasyon Alanı */
+  .animation-container {
+    width: 200px; /* Daha büyük */
+    height: 200px; /* Daha büyük */
+    margin-top: 20px;
+    margin-left: auto; /* Yatayda ortala */
+    margin-right: auto; /* Yatayda ortala */
+    perspective: 400px; /* Perspektifi ayarla */
+  }
+
+  .cube {
+    width: 100px; /* Küpün boyutu */
+    height: 100px; /* Küpün boyutu */
+    position: relative;
+    transform-style: preserve-3d;
+    animation: rotateCube 2s infinite linear; /* Daha hızlı dönüş */
+  }
+
+  .face {
+    position: absolute;
+    width: 100px; /* Yüzlerin boyutu */
+    height: 100px; /* Yüzlerin boyutu */
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    line-height: 100px;
+    font-size: 24px;
+    color: #fff;
+    text-align: center;
+    text-shadow: 1px 1px black;
+  }
+
+  .face.front  { transform: translateZ(50px); }
+  .face.back   { transform: rotateY(180deg) translateZ(50px); }
+  .face.right  { transform: rotateY(90deg) translateZ(50px); }
+  .face.left   { transform: rotateY(-90deg) translateZ(50px); }
+  .face.top    { transform: rotateX(90deg) translateZ(50px); }
+  .face.bottom { transform: rotateX(-90deg) translateZ(50px); }
+
+  @keyframes rotateCube {
+    from { transform: rotateX(0deg) rotateY(0deg); }
+    to   { transform: rotateX(360deg) rotateY(360deg); }
+  }
+
+  /* Proje listesi */
+  .project-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    margin: 20px 0;
+  }
+  .project-list div {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s, background 0.3s;
+  }
+  .project-list div:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: translateY(-5px);
+  }
+
+  /* Proje detayları */
+  .project-details {
+    display: none;
+    margin-top: 20px;
+    animation: fadeIn 1s ease-in-out;
+  }
+  .project-details.active {
+    display: block;
+  }
+  .gallery-section {
+    margin-bottom: 30px;
+  }
+  .project-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+  }
+  .project-gallery img, .project-gallery video {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transition: transform 0.3s;
+  }
+  .project-gallery img:hover, .project-gallery video:hover {
+    transform: scale(1.05);
+  }
+  .project-details h2 {
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  }
+
+  /* İletişim kısmı */
+  .contact-container {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .architect {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    text-align: center;
+    transition: transform 0.3s;
+  }
+  .architect:hover {
+    transform: scale(1.05);
+  }
+  .architect img {
+    max-width: 200px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    border: 2px solid white;
+  }
+  .architect p {
+    color: #ccc;
+  }
+  .architect a {
+    color: #fff;
+    text-decoration: none;
+  }
+  .architect a:hover {
+    text-decoration: underline;
+  }
+
+  /* Başvuru formu */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  form input {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transition: border 0.3s, box-shadow 0.3s;
+  }
+  form input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  form input:focus {
+    border: 1px solid firebrick;
+    box-shadow: 0 0 8px rgba(178,34,34,0.4);
+  }
+  form input::placeholder {
+    color: #ccc;
+  }
+  form input:focus {
+    border: 1px solid firebrick;
+    box-shadow: 0 0 8px rgba(178, 34, 34, 0.4);
+  }
+  form input::placeholder {
+    color: #ccc;
+  }
+  form input:focus {
+    border: 1px solid firebrick;
+    box-shadow: 0 0 8px rgba(178, 34, 34, 0.4);
+  }
+  form input::placeholder {
+    color: #ccc;
+  }
+  form input:focus {
+    border: 1px solid firebrick;
+    box-shadow: 0 0 8px rgba(178, 34, 34, 0.4);
+  }
+  form input::placeholder {
+    color: #ccc;
+  }
+  form input:focus {
+    border: 1px solid firebrick;
+    box-shadow: 0 0 8px rgba(178, 34, 34, 0.4);
+  }
+  form input::placeholder {
+    color: #ccc;
+  }
+  form input:focus {
+    border: 1px solid firebrick;
+    box-shadow: 0 0 8px rgba(178, 34, 34, 0.4);
+  }
+
+  /* Animasyonlar */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+<div class="navbar">
+  <a href="#" onclick="showSection('home')">Home</a>
+  <a href="#" onclick="showSection('projects')">Projeler</a>
+  <a href="#" onclick="showSection('contact')">İletişim</a>
+  <a href="#" onclick="showSection('apply')">Başvuru</a>
+</div>
+
+<div id="home" class="content active">
+  <h1>Özdemir Mimarlık</h1>
+  <p>Welcome to our architecture website, where creativity meets structure.</p>
+  <div class="animation-container">
+    <div class="cube">
+      <div class="face front">Özdemir</div>
+      <div class="face back"></div>
+      <div class="face right">Mimarlık</div>
+      <div class="face left">Berat</div>
+      <div class="face top">Betül</div>
+      <div class="face bottom"></div>
+    </div>
+  </div>
+</div>
+
+<div id="projects" class="content">
+  <h1>Projelerimiz</h1>
+  <div class="project-list">
+    <div onclick="showProject('project-1')">Proje 1</div>
+    <div onclick="showProject('project-2')">Proje 2</div>
+    <div onclick="showProject('project-3')">Proje 3</div>
+    <div onclick="showProject('project-4')">Proje 4</div>
+    <div onclick="showProject('project-5')">Proje 5</div>
+    <div onclick="showProject('project-6')">Proje 6</div>
+    <div onclick="showProject('project-7')">Proje 7</div>
+    <div onclick="showProject('project-8')">Proje 8</div>
+    <div onclick="showProject('project-9')">Proje 9</div>
+    <div onclick="showProject('project-10')">Proje 10</div>
+  </div>
+
+  <div id="project-1" class="project-details">
+    <div class="gallery-section">
+      <h2>Proje 1 - Fotoğraflar</h2>
+      <div class="project-gallery">
+        <img src="C:/Users/User/Desktop/WhatsApp Görsel 2024-06-07 saat 14.31.01_74a2e6c2.jpg" alt="">
+        <img src="C:/Users/User/Desktop/WhatsApp Görsel 2024-06-09 saat 19.00.59_71b344d7.jpg" alt="">
+        <img src="C:/Users/User/Desktop/WhatsApp Görsel 2024-06-09 saat 19.01.01_380d7334.jpg" alt="">
+        <img src="C:/Users/User/Desktop/WhatsApp Görsel 2024-06-09 saat 19.01.01_64673b5d.jpg" alt="">
+        <img src="C:/Users/User/Desktop/WhatsApp Görsel 2024-06-09 saat 19.01.01_36c1fbcb.jpg" alt="">
+        <img src="C:/Users/User/Desktop/WhatsApp Görsel 2024-06-09 saat 19.01.05_72bdf0fc.jpg" alt="">
+      </div>
+    </div>
+    <div class="gallery-section">
+      <h2>Proje 1 - Videolar</h2>
+      <div class="project-gallery">
+        <video src="C:/Users/User/Desktop/WhatsApp Video 2024-06-09 saat 19.01.05_44e4d56d.mp4" controls></video>
+        <video src="https://www.example.com/video2.mp4" controls></video>
+        <video src="https://www.example.com/video3.mp4" controls></video>
+      </div>
+    </div>
+  </div>
+
+  </div>
+
+<div id="contact" class="content">
+  <h1>İletişim</h1>
+  <div class="contact-container">
+    <div class="architect">
+      <img src="C:/Users/User/Pictures/Screenshots/Ekran görüntüsü 2024-06-07 144504.png" alt="Yüksek Mimar Berat Özdemir ">
+      <p>Email: mimar1@example.com</p>
+      <p>Instagram: <a href="https://www.instagram.com/mimarberatozdemir/?igsh=dDVtdDg3Z2RneDRo">mimarberatozdemir</a></p>
+      <p>Telefon: 00000000000</p>
+      <p>Linkedİn:<a href="https://www.linkedin.com/in/berat-%C3%B6zdemir-763781248/?trk=people-guest_people_search-card&originalSubdomain=tr">BeratOzdemir</a></p>
+    </div>
+    <div class="architect">
+      <img src="C:/Users/User/Pictures/Screenshots/Ekran görüntüsü 2024-06-07 144533.png" alt="Yüksek Mimar Betül Gök">
+      <p>Email: mimar2@example.com</p>
+      <p>Instagram: <a href="https://www.instagram.com/mimarbetulgok?igsh=bjB5a3RkajEybmoz">mimarbetulgok</a></p>
+      <p>Telefon: 11111111111</p>
+      <p>Linkedİn:<a href="https://www.linkedin.com/in/bet%C3%BCl-g%C3%B6k-360912194/">BetulGok</a></p>
+    </div>
+  </div>
+</div>
+
+<div id="apply" class="content">
+  <h1>Başvuru</h1>
+  <form id="apply-form" action="mimarlık_veritabanı.php" method="post" onsubmit="submitForm(event)">
+    <input type="text" id="Ad-Soyad" name="Ad-Soyad" placeholder="Ad Soyad" required>
+    <input type="tel" id="telefon" name="telefon" placeholder="Telefon Numarası" required>
+    <input type="email" id="mail" name="mail" placeholder="Email Adresi" required>
+    <input type="submit" value="Başvuru Yap">
+  </form>
+</div>
+
+<script>
+  // Sayfa ve proje görünümü
+  document.querySelectorAll('.content').forEach(el=>el.style.display='none');
+  document.getElementById('home').style.display='block';
+
+  function showSection(id){
+    document.querySelectorAll('.content').forEach(el=>el.style.display='none');
+    document.getElementById(id).style.display='block';
+  }
+
+  function showProject(id){
+    document.querySelectorAll('.project-details').forEach(el=>el.style.display='none');
+    document.getElementById(id).style.display='block';
+  }
+
+  function submitForm(event){
+    event.preventDefault();
+    let fullname=document.getElementById('Ad-Soyad').value;
+    let email=document.getElementById('mail').value;
+    let phone=document.getElementById('telefon').value;
+    console.log("Ad Soyad:", fullname);
+    console.log("Email:", email);
+    console.log("Telefon Numarası:", phone);
+    alert("Başvurunuz başarıyla kaydedildizzzzzzzzzz!");
+  }
+</script>
+</body>
+</html>
